@@ -1,41 +1,84 @@
-# Prerequisites
-*.d
+# =============================================
+# HEALTH MONITOR APP - ARCHIVOS IGNORADOS
+# =============================================
 
-# Compiled Object files
-*.slo
-*.lo
+# 📁 Directorios de compilación
+build/
+CMakeFiles/
+x64/
+x86/
+Debug/
+Release/
+out/
+
+# 📦 Archivos compilados
 *.o
 *.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Linker files
-*.ilk
-
-# Debugger Files
-*.pdb
-
-# Compiled Dynamic libraries
+*.exe
+*.app
+*.dll
 *.so
 *.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
 *.a
 *.lib
 
-# Executables
-*.exe
-*.out
-*.app
+# 🗃️ Base de datos SQLite
+*.db
+*.sqlite
+*.db-journal
+*.sqlite-wal
+*.sqlite-shm
 
-# debug information files
-*.dwo
+# 🎨 Qt Creator
+*.pro.user
+*.pro.user.*
+*.autosave
+
+# 🔧 CMake
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+install_manifest.txt
+CTestTestfile.cmake
+
+# 💻 IDEs y editores
+.vscode/
+.idea/
+*.swp
+*~
+*.bak
+*.tmp
+*.swo
+
+# 📊 Logs y reportes
+*.log
+*.tlog
+*.ilk
+*.pdb
+*.ipch
+
+# 🖼️ Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 📦 Dependencias y paquetes
+deps/
+vendor/
+*.vcxproj
+*.vcxproj.filters
+*.sln
+
+# 🧪 Pruebas
+*.gcno
+*.gcda
+*.gcov
+
+# 🚀 Instaladores y distribuciones
+dist/
+installer/
+*.msi
+*.dmg
+*.deb
+*.rpm
