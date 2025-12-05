@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>🏥 Health Monitor</title>
+    <title> Health Monitor</title>
     <style>
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
@@ -119,39 +119,39 @@
 </head>
 <body>
     <div class="container">
-        <h1>🏥 Health Monitor App</h1>
+        <h1> Health Monitor App</h1>
         <div class="user-info">
-            <p>👤 Usuario: <strong>xx-juancamilo777</strong> | 📅 Fecha: <span id="currentDate"></span></p>
+            <p>👤 Usuario: <strong>xx-juancamilo777</strong> |  Fecha: <span id="currentDate"></span></p>
         </div>
         
         <div class="form-section">
             <h2>➕ Nuevo Registro de Salud</h2>
             <div class="form-group">
-                <label>📅 Fecha:</label>
+                <label> Fecha:</label>
                 <input type="date" id="date" value="">
             </div>
             <div class="form-group">
-                <label>⚖️ Peso (kg):</label>
+                <label>Peso (kg):</label>
                 <input type="number" id="weight" step="0.1" placeholder="70.5">
             </div>
             <div class="form-group">
-                <label>💓 Presión Sistólica:</label>
+                <label>resión Sistólica:</label>
                 <input type="number" id="systolic" placeholder="120">
             </div>
             <div class="form-group">
-                <label>💓 Presión Diastólica:</label>
+                <label>Presión Diastólica:</label>
                 <input type="number" id="diastolic" placeholder="80">
             </div>
             <div class="form-group">
-                <label>🩸 Glucosa (mg/dL):</label>
+                <label> Glucosa (mg/dL):</label>
                 <input type="number" id="glucose" step="0.1" placeholder="95.0">
             </div>
             <div style="text-align: center; margin-top: 20px;">
-                <button onclick="addRecord()">💾 Guardar Registro</button>
+                <button onclick="addRecord()">Guardar REGISTRO</button>
             </div>
         </div>
         
-        <h2>📊 Historial Médico</h2>
+        <h2>Historial Médico</h2>
         <div style="overflow-x: auto;">
             <table id="recordsTable">
                 <thead>
@@ -170,13 +170,13 @@
         </div>
         
         <div class="actions">
-            <button onclick="exportCSV()">📥 Exportar a CSV</button>
-            <button onclick="showStats()" style="background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);">📈 Ver Estadísticas</button>
-            <button onclick="location.reload()" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">🔄 Actualizar</button>
+            <button onclick="exportCSV()">Exportar a CSV</button>
+            <button onclick="showStats()" style="background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);">Ver Estadísticas</button>
+            <button onclick="location.reload()" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">Actualizar</button>
         </div>
         
         <div id="statsSection" style="display: none; margin-top: 30px;">
-            <h2>📈 Estadísticas</h2>
+            <h2>Estadísticas</h2>
             <div class="stat-card">
                 <div class="stat-value" id="avgWeight">--</div>
                 <div class="stat-label">Peso Promedio</div>
@@ -245,7 +245,7 @@
             
             // Validación básica
             if (!record.date || isNaN(record.weight) || isNaN(record.systolic) || isNaN(record.diastolic) || isNaN(record.glucose)) {
-                alert('❌ Por favor, complete todos los campos correctamente');
+                alert('Por favor, complete todos los campos correctamente');
                 return;
             }
             
@@ -260,7 +260,7 @@
             // Actualizar tabla
             loadRecords();
             
-            alert('✅ Registro guardado exitosamente');
+            alert('Registro guardado exitosamente');
         }
         
         function editRecord(index) {
@@ -320,7 +320,7 @@
             a.download = 'health_records.csv';
             a.click();
             
-            alert('📥 CSV exportado exitosamente');
+            alert(' CSV exportado exitosamente');
         }
         
         // Cargar datos al iniciar
