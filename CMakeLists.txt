@@ -1,17 +1,14 @@
 cmake_minimum_required(VERSION 3.16)
 project(HealthMonitor VERSION 1.0.0)
 
-# Configuración C++
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
 
 # Buscar Qt6
 find_package(Qt6 REQUIRED COMPONENTS Core Widgets Sql)
 
-# Buscar SQLite3
+# Buscar SQLite
 find_package(SQLite3 REQUIRED)
 
 # Archivos fuente
@@ -38,6 +35,3 @@ target_link_libraries(HealthMonitor
     Qt6::Sql
     SQLite::SQLite3
 )
-
-# Configuración para instalación
-install(TARGETS HealthMonitor DESTINATION bin)

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🏥 Health Monitor</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 { 
+            color: #2c3e50; 
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .user-info {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        .form-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .form-group { 
+            margin: 15px 0; 
+            display: inline-block;
+            width: 48%;
+            padding: 0 1%;
+        }
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        input { 
+            padding: 10px; 
+            width: 90%; 
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            transition: border 0.3s;
+        }
+        input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        button { 
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); 
+            color: white; 
+            border: none; 
+            padding: 12px 25px; 
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px; 
+        }
+        th, td { 
+            border: 1px solid #ddd; 
+            padding: 12px; 
+            text-align: left; 
+        }
+        th { 
+            background: #2c3e50; 
+            color: white; 
+            position: sticky;
+            top: 0;
+        }
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        tr:hover {
+            background: #f1f1f1;
+        }
+        .actions {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            display: inline-block;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+        }
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏥 Health Monitor App</h1>
+        <div class="user-info">
+            <p>👤 Usuario: <strong>xx-juancamilo777</strong> | 📅 Fecha: <span id="currentDate"></span></p>
+        </div>
+        
+        <div class="form-section">
+            <h2>➕ Nuevo Registro de Salud</h2>
+            <div class="form-group">
+                <label>📅 Fecha:</label>
+                <input type="date" id="date" value="">
+            </div>
+            <div class="form-group">
+                <label>⚖️ Peso (kg):</label>
+                <input type="number" id="weight" step="0.1" placeholder="70.5">
+            </div>
+            <div class="form-group">
+                <label>💓 Presión Sistólica:</label>
+                <input type="number" id="systolic" placeholder="120">
+            </div>
+            <div class="form-group">
+                <label>💓 Presión Diastólica:</label>
+                <input type="number" id="diastolic" placeholder="80">
+            </div>
+            <div class="form-group">
+                <label>🩸 Glucosa (mg/dL):</label>
+                <input type="number" id="glucose" step="0.1" placeholder="95.0">
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button onclick="addRecord()">💾 Guardar Registro</button>
+            </div>
+        </div>
+        
+        <h2>📊 Historial Médico</h2>
+        <div style="overflow-x: auto;">
+            <table id="recordsTable">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Peso (kg)</th>
+                        <th>Presión</th>
+                        <th>Glucosa</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="recordsBody">
+                    <tr><td colspan="5" style="text-align: center;">Cargando datos...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="actions">
+            <button onclick="exportCSV()">📥 Exportar a CSV</button>
+            <button onclick="showStats()" style="background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);">📈 Ver Estadísticas</button>
+            <button onclick="location.reload()" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">🔄 Actualizar</button>
+        </div>
+        
+        <div id="statsSection" style="display: none; margin-top: 30px;">
+            <h2>📈 Estadísticas</h2>
+            <div class="stat-card">
+                <div class="stat-value" id="avgWeight">--</div>
+                <div class="stat-label">Peso Promedio</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgPressure">--</div>
+                <div class="stat-label">Presión Promedio</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgGlucose">--</div>
+                <div class="stat-label">Glucosa Promedio</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalRecords">--</div>
+                <div class="stat-label">Total Registros</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Fecha actual por defecto
+        document.getElementById('date').value = new Date().toISOString().split('T')[0];
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString();
+        
+        // Datos de ejemplo (simulados)
+        let records = [
+            { date: '2024-12-01', weight: 72.5, systolic: 120, diastolic: 80, glucose: 95 },
+            { date: '2024-12-02', weight: 72.3, systolic: 118, diastolic: 78, glucose: 92 },
+            { date: '2024-12-03', weight: 72.0, systolic: 122, diastolic: 82, glucose: 98 }
+        ];
+        
+        function loadRecords() {
+            const tbody = document.getElementById('recordsBody');
+            tbody.innerHTML = '';
+            
+            if (records.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No hay registros aún</td></tr>';
+                return;
+            }
+            
+            records.forEach((record, index) => {
+                const row = `<tr>
+                    <td>${record.date}</td>
+                    <td>${record.weight} kg</td>
+                    <td>${record.systolic}/${record.diastolic}</td>
+                    <td>${record.glucose} mg/dL</td>
+                    <td>
+                        <button onclick="editRecord(${index})" style="padding: 5px 10px; margin: 2px;">✏️ Editar</button>
+                        <button onclick="deleteRecord(${index})" style="padding: 5px 10px; margin: 2px; background: #e74c3c;">🗑️ Eliminar</button>
+                    </td>
+                </tr>`;
+                tbody.innerHTML += row;
+            });
+            
+            updateStats();
+        }
+        
+        function addRecord() {
+            const record = {
+                date: document.getElementById('date').value,
+                weight: parseFloat(document.getElementById('weight').value),
+                systolic: parseInt(document.getElementById('systolic').value),
+                diastolic: parseInt(document.getElementById('diastolic').value),
+                glucose: parseFloat(document.getElementById('glucose').value)
+            };
+            
+            // Validación básica
+            if (!record.date || isNaN(record.weight) || isNaN(record.systolic) || isNaN(record.diastolic) || isNaN(record.glucose)) {
+                alert('❌ Por favor, complete todos los campos correctamente');
+                return;
+            }
+            
+            records.push(record);
+            
+            // Limpiar formulario
+            document.getElementById('weight').value = '';
+            document.getElementById('systolic').value = '';
+            document.getElementById('diastolic').value = '';
+            document.getElementById('glucose').value = '';
+            
+            // Actualizar tabla
+            loadRecords();
+            
+            alert('✅ Registro guardado exitosamente');
+        }
+        
+        function editRecord(index) {
+            const record = records[index];
+            document.getElementById('date').value = record.date;
+            document.getElementById('weight').value = record.weight;
+            document.getElementById('systolic').value = record.systolic;
+            document.getElementById('diastolic').value = record.diastolic;
+            document.getElementById('glucose').value = record.glucose;
+            
+            // Eliminar el registro antiguo
+            records.splice(index, 1);
+            loadRecords();
+        }
+        
+        function deleteRecord(index) {
+            if (confirm('¿Está seguro de eliminar este registro?')) {
+                records.splice(index, 1);
+                loadRecords();
+            }
+        }
+        
+        function updateStats() {
+            if (records.length > 0) {
+                const avgWeight = (records.reduce((sum, r) => sum + r.weight, 0) / records.length).toFixed(1);
+                const avgSystolic = Math.round(records.reduce((sum, r) => sum + r.systolic, 0) / records.length);
+                const avgDiastolic = Math.round(records.reduce((sum, r) => sum + r.diastolic, 0) / records.length);
+                const avgGlucose = (records.reduce((sum, r) => sum + r.glucose, 0) / records.length).toFixed(1);
+                
+                document.getElementById('avgWeight').textContent = avgWeight + ' kg';
+                document.getElementById('avgPressure').textContent = avgSystolic + '/' + avgDiastolic;
+                document.getElementById('avgGlucose').textContent = avgGlucose + ' mg/dL';
+                document.getElementById('totalRecords').textContent = records.length;
+            }
+        }
+        
+        function showStats() {
+            const statsSection = document.getElementById('statsSection');
+            statsSection.style.display = statsSection.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function exportCSV() {
+            if (records.length === 0) {
+                alert('No hay datos para exportar');
+                return;
+            }
+            
+            let csv = 'Fecha,Peso (kg),Presión Sistólica,Presión Diastólica,Glucosa (mg/dL)\n';
+            records.forEach(record => {
+                csv += `${record.date},${record.weight},${record.systolic},${record.diastolic},${record.glucose}\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'health_records.csv';
+            a.click();
+            
+            alert('📥 CSV exportado exitosamente');
+        }
+        
+        // Cargar datos al iniciar
+        window.onload = loadRecords;
+    </script>
+</body>
+</html>
